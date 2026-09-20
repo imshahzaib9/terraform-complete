@@ -22,11 +22,16 @@ data "aws_security_group" "my-custom-sg" {
 }
 
 resource "aws_instance" "my-ec2-instance" {
-  ami           = "ami-0f8a61b66d1accaee"
-  instance_type = "t3.small"
+  ami           = var.ami_id
+  instance_type = var.instance_type
   key_name      = aws_key_pair.my-test-key.key_name
   subnet_id     = aws_default_subnet.my-default-subnet.id
   vpc_security_group_ids = [data.aws_security_group.my-custom-sg.id]
+
+  root_block_device {
+    volume_size = var.aws_volume_size
+    volume_type = var.aws_volume_type
+  }
 
   tags = {
     Name = "My-Test-EC2-Instance"
