@@ -22,8 +22,19 @@ data "aws_security_group" "my-custom-sg" {
 }
 
 resource "aws_instance" "my-ec2-instance" {
+  
+  #this is a meta argument that allows you to create multiple instances of the same resource. In this case, we are creating 2 EC2 instances.
+  #count = 2
+
+  #for_each meta argument allows you to create multiple instances of the same resource using a map or set of strings. In this case, we are creating 2 EC2 instances with different names and instance types.
+  for_each = tomap({
+    Shahzaib-01 = "t3.small",
+    Shahzaib-02 = "t3.small"
+  })
+
   ami           = var.ami_id
-  instance_type = var.instance_type
+  #instance_type = var.instance_type
+  instance_type = each.value
   key_name      = aws_key_pair.my-test-key.key_name
   subnet_id     = aws_default_subnet.my-default-subnet.id
   vpc_security_group_ids = [data.aws_security_group.my-custom-sg.id]
@@ -33,7 +44,10 @@ resource "aws_instance" "my-ec2-instance" {
     volume_type = var.aws_volume_type
   }
 
+  user_data = file("install-script.sh")
+
   tags = {
-    Name = "My-Test-EC2-Instance"
+    #Name = "My-Test-EC2-Instance"
+    Name = each.key
   }
 }
