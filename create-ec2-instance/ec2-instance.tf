@@ -46,6 +46,9 @@ resource "aws_instance" "my-ec2-instance" {
 
   user_data = file("install-script.sh")
 
+  #Depends_on meta argument is used to specify that the creation of this resource depends on the creation of another resource. In this case, we are specifying that the creation of the EC2 instance depends on the creation of the key pair.
+  depends_on = [ aws_key_pair.my-test-key ]
+
   tags = {
     #Name = "My-Test-EC2-Instance"
     Name = each.key
