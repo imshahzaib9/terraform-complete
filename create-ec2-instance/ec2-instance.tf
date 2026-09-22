@@ -40,7 +40,7 @@ resource "aws_instance" "my-ec2-instance" {
   vpc_security_group_ids = [data.aws_security_group.my-custom-sg.id]
 
   root_block_device {
-    volume_size = var.aws_volume_size
+    volume_size = var.env == "prod" ? 30 : var.aws_volume_size #Conditional Expressions
     volume_type = var.aws_volume_type
   }
 

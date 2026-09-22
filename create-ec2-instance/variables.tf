@@ -1,3 +1,8 @@
+variable "env" {
+  default = "prod"
+  
+}
+
 variable "ami_id" {
   type   = string
   default = "ami-0f8a61b66d1accaee"
@@ -15,7 +20,7 @@ variable "aws_region" {
 
 variable "aws_volume_size" {
   type    = number
-  default = 50
+  default = 20
 }
 
 variable "aws_volume_type" {
