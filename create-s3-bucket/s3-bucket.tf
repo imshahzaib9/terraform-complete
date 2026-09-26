@@ -8,3 +8,8 @@ resource "aws_s3_bucket_versioning" "shazhaib-bucket-versioning" {
         status = "Enabled"
     }
 }
+
+resource "aws_s3_bucket" "test-bucket" {
+    provider = aws.stockholm
+    bucket = "rangarbucket"
+}
