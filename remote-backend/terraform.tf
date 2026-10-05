@@ -12,5 +12,6 @@ terraform {
     region         = "us-east-1"
     dynamodb_table = "my-remote-backend-lock-table"
     encrypt        = true
+    use_lockfile     = true
   }
 }

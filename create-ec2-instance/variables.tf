@@ -1,6 +1,6 @@
 variable "env" {
   default = "prod"
-  
+  type = string
 }
 
 variable "ami_id" {

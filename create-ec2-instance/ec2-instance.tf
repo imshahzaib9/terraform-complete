@@ -1,7 +1,6 @@
 resource "aws_key_pair" "my-test-key" {
   key_name   = "my-test-key"
   public_key = file("my-test-key.pub")
-  
 }
 
 resource "aws_default_vpc" "my-default-vpc" {
@@ -29,7 +28,10 @@ resource "aws_instance" "my-ec2-instance" {
   #for_each meta argument allows you to create multiple instances of the same resource using a map or set of strings. In this case, we are creating 2 EC2 instances with different names and instance types.
   for_each = tomap({
     Shahzaib-01 = "t3.small",
-    Shahzaib-02 = "t3.small"
+    #Shahzaib-02 = "t3.small"
+    #Shahzaib-03 = "t2.micro"
+    #Shahzaib-04 = "t2.large"
+
   })
 
   ami           = var.ami_id
@@ -54,3 +56,4 @@ resource "aws_instance" "my-ec2-instance" {
     Name = each.key
   }
 }
+
