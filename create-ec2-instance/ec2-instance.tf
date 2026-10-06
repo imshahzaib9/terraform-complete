@@ -1,7 +1,19 @@
 resource "aws_key_pair" "my-test-key" {
   key_name   = "my-test-key"
   public_key = file("my-test-key.pub")
+
+  tags = {
+    Name = "My-Test-Key-01"
+    Evironment = var.env
+  }
 }
+
+#If you want to give a unique name to the key pair, you can use the following code snippet. This will create a unique name for the key pair by appending a random string to the key name.
+#key_name   = "${var.env}-my-test-key"
+
+/*data "aws_key_pair" "my-test-key" {
+  key_name = "my-test-key"
+}*/
 
 resource "aws_default_vpc" "my-default-vpc" {
   tags = {
@@ -30,7 +42,7 @@ resource "aws_instance" "my-ec2-instance" {
     Shahzaib-01 = "t3.small",
     #Shahzaib-02 = "t3.small"
     #Shahzaib-03 = "t2.micro"
-    #Shahzaib-04 = "t2.large"
+    #Shahzaib-04 = "t2.micro"
 
   })
 
@@ -38,6 +50,7 @@ resource "aws_instance" "my-ec2-instance" {
   #instance_type = var.instance_type
   instance_type = each.value
   key_name      = aws_key_pair.my-test-key.key_name
+  #key_name      = data.aws_key_pair.my-test-key.key_name
   subnet_id     = aws_default_subnet.my-default-subnet.id
   vpc_security_group_ids = [data.aws_security_group.my-custom-sg.id]
 
@@ -50,10 +63,12 @@ resource "aws_instance" "my-ec2-instance" {
 
   #Depends_on meta argument is used to specify that the creation of this resource depends on the creation of another resource. In this case, we are specifying that the creation of the EC2 instance depends on the creation of the key pair.
   depends_on = [ aws_key_pair.my-test-key ]
+  #depends_on = [ data.aws_key_pair.my-test-key ]
 
   tags = {
     #Name = "My-Test-EC2-Instance"
     Name = each.key
+    Environment = var.env
   }
 }
 
