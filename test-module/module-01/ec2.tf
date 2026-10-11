@@ -1,6 +1,7 @@
 resource "aws_key_pair" "my-test-key" {
   key_name   = "${var.environment}-my-test-key"
-  public_key = file("my-test-key.pub")
+  #public_key = file("my-test-key.pub")
+  public_key = file("${path.module}/my-test-key.pub")
 
   tags = {
     Name = "My-Test-Key-01"
