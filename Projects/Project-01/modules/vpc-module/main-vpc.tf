@@ -48,16 +48,17 @@ resource "aws_route_table" "shahzaib-public-rt" {
 }
 
 resource "aws_route_table_association" "shahzaib-public-rt-association" {
-  subnet_id = aws_subnet.shahzaib-public-subnet.id # - Interpolation of Subnet ID from the aws_subnet resource.
-  route_table_id = aws_route_table.shahzaib-public-rt.id # - Interpolation of Route Table ID from the aws_route_table resource.
+    count = length(aws_subnet.shahzaib-public-subnet)
+    subnet_id = aws_subnet.shahzaib-public-subnet[count.index].id # - Interpolation of Subnet ID from the aws_subnet resource.
+    route_table_id = aws_route_table.shahzaib-public-rt.id # - Interpolation of Route Table ID from the aws_route_table resource.
 }
 
 resource "aws_route_table" "shahzaib-private-rt" {
-  vpc_id = aws_vpc.shahzaib-vpc.id # - Interpolation of VPC ID from the aws_vpc resource.
+    vpc_id = aws_vpc.shahzaib-vpc.id # - Interpolation of VPC ID from the aws_vpc resource.
 }
 
 resource "aws_route_table_association" "shahzaib-private-rt-association" {
     count          = length(aws_subnet.shahzaib-private-subnet)
-  subnet_id = aws_subnet.shahzaib-private-subnet.id # - Interpolation of Subnet ID from the aws_subnet resource.
-  route_table_id = aws_route_table.shahzaib-private-rt.id # - Interpolation of Route Table ID from the aws_route_table resource.
+    subnet_id = aws_subnet.shahzaib-private-subnet[count.index].id # - Interpolation of Subnet ID from the aws_subnet resource.
+    route_table_id = aws_route_table.shahzaib-private-rt.id # - Interpolation of Route Table ID from the aws_route_table resource.
 }
